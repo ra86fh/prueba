@@ -1,9 +1,9 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 
+
 require('update-electron-app')({
-    updateInterval: '5 minutes',
-    logger: require('electron-log')
+    updateInterval: '5 minutes'
 })
 
 const loadMainWindow = () => {
@@ -11,6 +11,7 @@ const loadMainWindow = () => {
         width: 1200,
         height: 800,
         webPreferences: {
+            contextIsolation: false,
             nodeIntegration: true
         }
     });
@@ -29,4 +30,8 @@ app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {
         loadMainWindow();
     }
+});
+
+ipcMain.on('app_version', (event) => {
+    event.sender.send('app_version', { version: app.getVersion() });
 });

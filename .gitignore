@@ -1,3 +1,4 @@
+electron-builder.yml
 dist/
 # Dependency directories
 node_modules/
